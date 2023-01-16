@@ -1,0 +1,19 @@
+.search input {
+    height: 35px;
+    width: 100%;
+}
+
+.search input:focus {
+    border-color: none;
+    box-shadow: none;
+    outline: none
+}
+
+::placeholder {
+    color: rgb(143, 145, 148);
+    opacity: 1
+}
+
+.search button {    
+    border: none;
+}
