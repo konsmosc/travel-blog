@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-box',
@@ -6,5 +7,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./search-box.component.scss']
 })
 export class SearchBoxComponent {
+
+  searchQuery: string = ""
+
+  constructor(private router: Router) { }
+
+  search() {
+    this.router.navigate(['/search'], {queryParams:{landmark:this.searchQuery}});
+    this.searchQuery = ""
+  }
 
 }

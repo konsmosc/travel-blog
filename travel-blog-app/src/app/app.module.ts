@@ -9,6 +9,9 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { NavbarComponent } from './shared-components/navbar/navbar.component';
 import { SearchBoxComponent } from './shared-components/search-box/search-box.component';
 import { LoginComponent } from './pages/login/login.component';
+import { SearchComponent } from './pages/search/search.component';
+import { ListLandmarksComponent } from './components/list-landmarks/list-landmarks.component';
+import { LandmarkInfoComponent } from './components/landmark-info/landmark-info.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +20,10 @@ import { LoginComponent } from './pages/login/login.component';
     PageNotFoundComponent,
     NavbarComponent,
     SearchBoxComponent,
-    LoginComponent
+    LoginComponent,
+    SearchComponent,
+    ListLandmarksComponent,
+    LandmarkInfoComponent
   ],
   imports: [
     BrowserModule,

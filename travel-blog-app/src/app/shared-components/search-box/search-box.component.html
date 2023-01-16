@@ -1,1 +1,4 @@
-<p>search-box works!</p>
+<div class="d-flex search">
+    <input class="form-control form-control-sm" [(ngModel)]="searchQuery" type="text" placeholder="Search...">
+    <button class="btn text-white" type="submit" (click)="search()" [disabled]="searchQuery === ''"><i class="fa fa-search"></i></button>
+</div>
