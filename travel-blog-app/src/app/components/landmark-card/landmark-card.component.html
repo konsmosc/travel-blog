@@ -1,0 +1,11 @@
+<div class="row">
+    <div class="col-4">
+        <img src="{{landmark.photo_thumb}}" class="img-fluid">
+    </div>
+    <div class="col-8">
+        <div class="card-body">
+            <h5 class="card-title"><a [routerLink]="['/landmark', landmark.objectId]">{{landmark.title}}</a></h5>
+            <p class="card-text">{{landmark.short_info}}</p>
+        </div>
+    </div>         
+</div>

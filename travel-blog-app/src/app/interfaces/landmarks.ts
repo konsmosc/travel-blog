@@ -10,6 +10,6 @@ export interface Landmark {
     location: number[]
 }
 
-export interface Landmarks {
-    landmarks: Landmark[]
+export interface ListLandmarksResponse {
+    result: Landmark[]
 }

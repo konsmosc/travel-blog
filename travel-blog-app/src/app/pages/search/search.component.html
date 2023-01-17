@@ -1,1 +1,7 @@
 <p>search works!</p>
+
+<div class="col" *ngFor="let landmark of searchLandmarksArray">
+
+    <app-landmark-card [landmark]="landmark"></app-landmark-card>
+
+</div>

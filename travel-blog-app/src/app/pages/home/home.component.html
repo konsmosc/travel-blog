@@ -1,1 +1,14 @@
-<p>home works!</p>
+<div class="container mt-4 mb-4">  
+  
+    <div class="row row-cols-1 row-cols-lg-2 g-4">
+
+        <div class="col" *ngFor="let landmark of landmarksArray">
+
+            <app-landmark-card [landmark]="landmark"></app-landmark-card>
+
+        </div>
+
+    </div>
+
+
+</div>

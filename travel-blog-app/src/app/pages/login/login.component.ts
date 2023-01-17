@@ -1,30 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   form: any = {
     username: null,
     password: null
   };
-  isLoggedIn = false;
-  isLoginFailed = false;
-  errorMessage = '';
-  roles: string[] = [];
 
-  constructor() { }
-
-  ngOnInit() {
-    // if (this.storageService.isLoggedIn()) {
-    //   this.isLoggedIn = true;
-    // }
-  }
+  constructor(private authService: AuthService) { }
 
   onSubmit() {
     const { username, password } = this.form;
+    console.log(this.form)
+    this.authService.login(username, password)
 
     // this.authService.login(username, password).subscribe({
     //   next: data => {
@@ -42,7 +35,4 @@ export class LoginComponent implements OnInit {
     // });
   }
 
-  reloadPage() {
-    window.location.reload();
-  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Landmarks } from 'src/app/interfaces/landmarks';
-// import { LandmarkService } from 'src/app/services/landmark.service';
+import { Landmark, ListLandmarksResponse } from 'src/app/interfaces/landmarks';
+import { LandmarkService } from 'src/app/services/landmark.service';
 
 @Component({
   selector: 'app-search',
@@ -11,11 +11,11 @@ import { Landmarks } from 'src/app/interfaces/landmarks';
 export class SearchComponent implements OnInit {
 
   landmarkTitle: string = ""
-  listOfLandmarks: Landmarks[] = []
+  searchLandmarksArray: Landmark[] = []
 
   constructor(
     private route: ActivatedRoute,
-    // private landmarkService: LandmarkService
+    private landmarkService: LandmarkService
   ) {}
 
   ngOnInit(): void {
@@ -23,12 +23,15 @@ export class SearchComponent implements OnInit {
       .subscribe(params => {
         this.landmarkTitle = params['landmark']
         console.log(this.landmarkTitle);
-        this.searchLandmarks(this.landmarkTitle)
+        // this.searchForLandmarks(this.landmarkTitle)
       })
   }
 
-  searchLandmarks(title: string) {
-    console.log(title)
+  searchForLandmarks(title: string) {
+    this.landmarkService.searchLandmark(title).subscribe((resp: ListLandmarksResponse) => {
+      console.log(resp)
+      this.searchLandmarksArray = resp.result
+    })
   }
 
 }

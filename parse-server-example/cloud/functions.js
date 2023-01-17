@@ -32,6 +32,22 @@ Parse.Cloud.define('landmarks', async req => {
   return results;
 });
 
+Parse.Cloud.define('search', async req => {
+  req.log.info(req);
+  
+  const query = new Parse.Query('Landmark');
+  query.matches('title', req.params.title, 'i')
+  query.select("title", "objectId", "photo_thumb", "short_info");
+  query.ascending('order');
+  
+  const results = await query.find()
+  
+  return results;
+ 
+},{
+  fields: ['title']
+});
+
 Parse.Cloud.beforeSave('Test', () => {
   throw new Parse.Error(9001, 'Saving test objects is not available.');
 });
