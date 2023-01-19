@@ -33,7 +33,9 @@
         <button class="btn btn-primary btn-block">
           Login
         </button>
-        
+
       </form>
     </div>
+
+    <p *ngIf="errorMessage != ''">{{errorMessage}}</p>
   </div>

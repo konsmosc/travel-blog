@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Landmark } from 'src/app/interfaces/landmarks';
 import { LandmarkService } from 'src/app/services/landmark.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import * as Parse from 'parse'; 
 
 @Component({
   selector: 'app-landmark-info',
@@ -22,11 +24,18 @@ export class LandmarkInfoComponent implements OnInit {
     location: []
   }
 
-  constructor(private landmarkService: LandmarkService, private route: ActivatedRoute){}
+  hasWritePermissions: boolean = false;
+
+  constructor(
+    private landmarkService: LandmarkService, 
+    private route: ActivatedRoute,
+    private authService: AuthService
+  ){}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id)
+    this.hasPermissions()
     // this.getLandmark(id)
   }
 
@@ -39,6 +48,31 @@ export class LandmarkInfoComponent implements OnInit {
 
   goToLink(url: string){
     window.open(url, "_blank");
+  }
+
+  hasPermissions() {
+    const isLoggedIn = this.authService.isAuthenticated();
+    if(isLoggedIn){
+      const user = Parse.User.current()?.toJSON()
+      if(user){
+        const permissions = this.authService.getPermissions(user?.objectId);
+        if(permissions){
+          if(permissions.write && permissions.write == true){
+            this.hasWritePermissions = true
+          }
+        }
+      }
+    }
+    this.hasWritePermissions = false
+  }
+
+  updateLandmark() {
+    const sessionToken = this.authService.getSessionToken();
+    if(sessionToken){
+      this.landmarkService.update(this.landmarkInfo.objectId, sessionToken).then((res) => {
+        console.log(res)
+      })
+    }
   }
 
 }

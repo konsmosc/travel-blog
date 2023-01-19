@@ -10,7 +10,8 @@
                     <a [routerLink]="['/home']" class="nav-link text-white">Home</a>
                 </li>
             </ul>
-            <app-search-box></app-search-box>
+            <app-search-box *ngIf="!isLoggedIn"></app-search-box>
+            <button class="btn text-white" *ngIf="isLoggedIn" (click)="logout()">Logout</button>
         </div>
     </div>
 </nav>

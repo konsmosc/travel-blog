@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Landmark, ListLandmarksResponse } from '../interfaces/landmarks';
+import * as Parse from 'parse';
 
 @Injectable({
   providedIn: 'root'
@@ -38,6 +39,23 @@ export class LandmarkService {
       headers: {
         'X-Parse-Application-Id': this.APP_KEY
       }
+    })
+  }
+
+  // uses the parse-sdk
+  async update(id: string, sessionToken: string,title?:string, short_info?: string, description?: string) {
+    const query = new Parse.Query("Landmark")
+    query.get(id).then((landmark) => {
+      landmark.set("title", title)
+      landmark.set("short_info", short_info)
+      landmark.set("description", description)
+      landmark.set("sessionToken", sessionToken)
+      landmark.save().then((updatedLandmark) => {
+        return updatedLandmark
+      }, (err) => {
+        console.log(err.message)
+      })
+
     })
   }
 

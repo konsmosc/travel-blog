@@ -3,3 +3,7 @@
 <a (click)="goToLink(landmarkInfo.photo)">
     <img src="{{landmarkInfo.photo_thumb}}" class="img-fluid" alt="...">
 </a>
+
+<div *ngIf="hasPermissions">
+    <button>Save</button>
+</div>
