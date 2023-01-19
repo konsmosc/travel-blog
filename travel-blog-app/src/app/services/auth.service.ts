@@ -1,6 +1,6 @@
-import { ParseError } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import * as Parse from 'parse';
+import { BehaviorSubject } from 'rxjs';
 
 Parse.initialize("NqqPKd9Mzzdk0Es6P7NdzXOXNb4tsqdq6Q8p0cZi");
 (Parse as any).serverURL = 'http://localhost:5000/parse';
@@ -10,13 +10,27 @@ Parse.initialize("NqqPKd9Mzzdk0Es6P7NdzXOXNb4tsqdq6Q8p0cZi");
 })
 export class AuthService {
 
+  private userAuth = new BehaviorSubject<boolean>(false);
+
+  get isUserAuth() {
+    return this.userAuth.asObservable();
+  }
+
   constructor() { }
 
-  async login(username: string, password: string) {
-    return await Parse.User.logIn(username, password);
+  login(username: string, password: string) {
+    return new Promise((resolve, reject) => {
+      Parse.User.logIn(username, password).then((res) => {
+        this.userAuth.next(true);
+        resolve(res)
+      }).catch((e) => {
+        reject(e)
+      })
+    });
   }
 
   async logout() {
+    this.userAuth.next(false);
     return await Parse.User.logOut();
   }
 

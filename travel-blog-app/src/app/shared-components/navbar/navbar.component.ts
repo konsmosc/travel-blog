@@ -9,7 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
 
-  isLoggedIn: boolean = false
+  isLoggedIn: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -17,11 +17,14 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoggedIn = this.authService.isAuthenticated();
+    this.authService.isUserAuth.subscribe((isAuth) => {
+      this.isLoggedIn = isAuth || this.authService.isAuthenticated();
+    });
   }
 
   async logout() {
     await this.authService.logout()
+    this.isLoggedIn = false
     this.route.navigate(['/login'])
   }
 

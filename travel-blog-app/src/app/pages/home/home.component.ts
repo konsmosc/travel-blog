@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private landmarkService: LandmarkService){}
 
   ngOnInit(): void {
-    // this.listLandmarks()
+    this.listLandmarks()
   }
 
   listLandmarks(){

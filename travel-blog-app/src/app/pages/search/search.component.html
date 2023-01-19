@@ -1,7 +1,23 @@
-<p>search works!</p>
+<div class="container mt-4">
 
-<div class="col" *ngFor="let landmark of searchLandmarksArray">
+    <div *ngIf="searchLandmarksArray.length>0" class="mt-2 mb-2 d-flex justify-content-start">
+        <p><span class="fs-4 fw-bolder text-success">{{searchLandmarksArray.length}}</span> results found</p>
+    </div>
 
-    <app-landmark-card [landmark]="landmark"></app-landmark-card>
+    <div *ngIf="!(searchLandmarksArray.length > 0)" class="mt-2 mb-2 d-flex justify-content-center">
+        <p><span class="fs-4 fw-bolder text-danger">{{searchLandmarksArray.length}}</span> results found</p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-6 col-sm-12 mb-4" *ngFor="let landmark of searchLandmarksArray">
+
+            <app-landmark-card [landmark]="landmark"></app-landmark-card>
+
+        </div>
+
+    </div>
+
+    
 
 </div>

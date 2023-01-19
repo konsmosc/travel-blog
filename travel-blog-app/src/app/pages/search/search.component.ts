@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
       .subscribe(params => {
         this.landmarkTitle = params['landmark']
         console.log(this.landmarkTitle);
-        // this.searchForLandmarks(this.landmarkTitle)
+        this.searchForLandmarks(this.landmarkTitle)
       })
   }
 

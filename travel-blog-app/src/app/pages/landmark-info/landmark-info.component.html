@@ -1,9 +1,38 @@
-<p>landmark-info works!</p>
+<div class="container mt-4">
 
-<a (click)="goToLink(landmarkInfo.photo)">
-    <img src="{{landmarkInfo.photo_thumb}}" class="img-fluid" alt="...">
-</a>
+    <div class="row">
 
-<div *ngIf="hasPermissions">
-    <button>Save</button>
+        <div class="col-12 col-md-6">
+
+            <a (click)="goToLink(landmarkInfo.photo)">
+                <img src="{{landmarkInfo.photo_thumb}}" class="img-fluid" alt="...">
+            </a>
+
+            
+        </div>
+
+        <div class="col-6">
+            <h4 class="">Short-Info</h4>
+            <input type="text" class="form-control-plaintext" [readonly]="!hasWritePermissions" value="{{landmarkInfo.short_info}}">
+        </div>
+
+    </div>
+
+    <div class="mt-2">
+        <h3 class="">Description</h3>
+        <!-- <input type="text" class="form-control-plaintext" [readonly]="!hasWritePermissions" value="{{landmarkInfo.description}}"> -->
+        <textarea class="form-control-plaintext" [readonly]="!hasWritePermissions" value="{{landmarkInfo.description}}" rows="10"></textarea>
+    </div>
+
+    <div class="">
+        <!-- to open in different tab -->
+        <a href="{{landmarkInfo.url}}" target="_blank" class="">Find out more!</a>
+        <!-- to open in the same tab -->
+        <!-- <a href="{{landmarkInfo.url}}" class="">Find out more!</a> -->
+    </div>
+
+    <div *ngIf="hasWritePermissions" class="mt-2 d-flex">
+        <button class="btn btn-primary">Save</button>
+    </div>
+
 </div>

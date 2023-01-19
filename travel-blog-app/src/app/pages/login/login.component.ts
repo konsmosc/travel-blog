@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -11,38 +12,50 @@ export class LoginComponent implements OnInit{
   
   isLoggedIn: boolean = false;
   errorMessage: string = "";
-  
-  form: any = {
-    username: null,
-    password: null
-  };
+  loginForm: FormGroup | any;
 
   constructor(
     private authService: AuthService,
-    private route: Router) { }
+    private route: Router,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    this.initForms();
     this.isLoggedIn = this.authService.isAuthenticated()
     if(this.isLoggedIn){
       this.route.navigate(['/home'])
     }
   }
 
-  onSubmit() {
-    const { username, password } = this.form;
-    console.log(this.form)
-    // const user = Parse.User.current();
-    // const userObj = user?.toJSON()
-    // console.log("user", user)
-    // console.log("UserObj", userObj)
-
-    this.authService.login(username, password).then((user) => {
-      console.log(user)
-      this.route.navigate(['/home'])
-    }).catch((e) => {
-      this.form = {}
-      this.errorMessage = e.message;
+  initForms() {
+    this.loginForm = this.fb.group({
+      username: [null, Validators.required],
+      password: [null, Validators.required]
     })
+  }
+
+  onSubmit() {
+    const { username, password } = this.loginForm.value;
+    if(this.loginForm.valid){
+      this.authService.login(username, password).then((user) => {
+        console.log(user)
+        if(user != undefined){
+          this.route.navigate(['/home'])
+        }
+      }).catch((e) => {
+        this.onReset();
+        this.errorMessage = e.message;
+      })
+    }
+  }
+
+  onReset(): void {
+    this.loginForm.reset();
+  }
+
+  isFieldInvalid(field: string) {
+    return !this.loginForm.get(field).valid;
   }
 
 }

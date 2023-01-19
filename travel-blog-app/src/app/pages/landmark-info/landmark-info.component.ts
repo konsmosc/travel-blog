@@ -36,7 +36,7 @@ export class LandmarkInfoComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id)
     this.hasPermissions()
-    // this.getLandmark(id)
+    this.getLandmark(id)
   }
 
   getLandmark(id: string | null) {
@@ -63,7 +63,6 @@ export class LandmarkInfoComponent implements OnInit {
         }
       }
     }
-    this.hasWritePermissions = false
   }
 
   updateLandmark() {
