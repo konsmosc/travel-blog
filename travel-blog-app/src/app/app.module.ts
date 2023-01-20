@@ -9,10 +9,10 @@ import { NavbarComponent } from './shared-components/navbar/navbar.component';
 import { SearchBoxComponent } from './shared-components/search-box/search-box.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
-import { LandmarkDetailsComponent } from './components/landmark-details/landmark-details.component';
 import { LandmarkInfoComponent } from './pages/landmark-info/landmark-info.component';
 import { HomeModule } from './pages/home/home.module';
 import { SearchModule } from './pages/search/search.module';
+import { SpinnerModule } from './components/spinner/spinner.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +21,6 @@ import { SearchModule } from './pages/search/search.module';
     NavbarComponent,
     SearchBoxComponent,
     LoginComponent,
-    LandmarkDetailsComponent,
     LandmarkInfoComponent
   ],
   imports: [
@@ -32,6 +31,7 @@ import { SearchModule } from './pages/search/search.module';
     HomeModule,
     SearchModule,
     AppRoutingModule,
+    SpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

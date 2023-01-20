@@ -63,10 +63,14 @@ export class AuthService {
       return policy[userId];
     }
     return policy["*"];
-
+    // second way using Parse Access Control List
     // const acl = new Parse.ACL(Parse.User.current());
     // const writePerms = acl.getWriteAccess(userId)
     // const readPerms = acl.getReadAccess(userId)
+    // return {
+    //   read: readPerms,
+    //   write: writePerms
+    // }
   }
 
 

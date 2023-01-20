@@ -1,4 +1,5 @@
-<div class="container mt-4">
+<app-spinner [isLoading]="isLoading"></app-spinner>
+<div *ngIf="!isLoading" class="container mt-4">
 
     <div *ngIf="searchLandmarksArray.length>0" class="mt-2 mb-2 d-flex justify-content-start">
         <p><span class="fs-4 fw-bolder text-success">{{searchLandmarksArray.length}}</span> results found</p>

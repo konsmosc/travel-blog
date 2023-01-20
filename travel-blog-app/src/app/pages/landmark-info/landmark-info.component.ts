@@ -4,6 +4,7 @@ import { LandmarkService } from 'src/app/services/landmark.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import * as Parse from 'parse'; 
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-landmark-info',
@@ -25,11 +26,14 @@ export class LandmarkInfoComponent implements OnInit {
   }
 
   hasWritePermissions: boolean = false;
+  isLoading: boolean = false;
+  updateForm: FormGroup | any;
 
   constructor(
     private landmarkService: LandmarkService, 
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ){}
 
   ngOnInit(): void {
@@ -37,12 +41,15 @@ export class LandmarkInfoComponent implements OnInit {
     console.log(id)
     this.hasPermissions()
     this.getLandmark(id)
+    this.initForms()
   }
 
   getLandmark(id: string | null) {
+    this.isLoading = true
     this.landmarkService.get(id).subscribe((resp: Landmark) => {
       console.log(resp)
       this.landmarkInfo = resp
+      this.isLoading = false
     })
   }
 
@@ -65,11 +72,21 @@ export class LandmarkInfoComponent implements OnInit {
     }
   }
 
+  initForms() {
+    this.updateForm = this.fb.group({
+      short_info: [null, Validators.required],
+      description: [null, Validators.required]
+    })
+  }
+
   updateLandmark() {
+    const { short_info, description } = this.updateForm.value;
+    console.log(short_info, description)
     const sessionToken = this.authService.getSessionToken();
     if(sessionToken){
-      this.landmarkService.update(this.landmarkInfo.objectId, sessionToken).then((res) => {
+      this.landmarkService.update(this.landmarkInfo.objectId, sessionToken, short_info, description).then((res) => {
         console.log(res)
+        this.getLandmark(this.landmarkInfo.objectId);
       })
     }
   }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SearchComponent } from './search.component';
 import { RouterModule, Routes } from '@angular/router';
 import { LandmarkCardModule } from 'src/app/components/landmark-card/landmark-card.module';
+import { SpinnerModule } from 'src/app/components/spinner/spinner.module';
 
 const SearchRoutes: Routes = [
   {
@@ -18,7 +19,8 @@ const SearchRoutes: Routes = [
   imports: [
     RouterModule.forChild(SearchRoutes),
     CommonModule,
-    LandmarkCardModule
+    LandmarkCardModule,
+    SpinnerModule
   ]
 })
 export class SearchModule { }

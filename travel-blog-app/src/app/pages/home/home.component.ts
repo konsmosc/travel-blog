@@ -9,7 +9,8 @@ import { LandmarkService } from 'src/app/services/landmark.service';
 })
 export class HomeComponent implements OnInit {
 
-  landmarksArray: Landmark[] = []
+  landmarksArray: Landmark[] = [];
+  isLoading: boolean = false;
 
   constructor(private landmarkService: LandmarkService){}
 
@@ -18,9 +19,11 @@ export class HomeComponent implements OnInit {
   }
 
   listLandmarks(){
+    this.isLoading = true;
     this.landmarkService.list().subscribe((resp: ListLandmarksResponse) => {
       console.log(resp.result)
       this.landmarksArray = resp.result
+      this.isLoading = false;
     })
   }
 

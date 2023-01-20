@@ -12,6 +12,7 @@ export class SearchComponent implements OnInit {
 
   landmarkTitle: string = ""
   searchLandmarksArray: Landmark[] = []
+  isLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,9 +29,11 @@ export class SearchComponent implements OnInit {
   }
 
   searchForLandmarks(title: string) {
+    this.isLoading = true;
     this.landmarkService.searchLandmark(title).subscribe((resp: ListLandmarksResponse) => {
       console.log(resp)
       this.searchLandmarksArray = resp.result
+      this.isLoading = false;
     })
   }
 
