@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit{
     this.initForms();
     this.isLoggedIn = this.authService.isAuthenticated()
     if(this.isLoggedIn){
-      this.route.navigate(['/home'])
+      this.route.navigate(['/admin-dashboard'])
     }
   }
 
@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit{
       this.authService.login(username, password).then((user) => {
         console.log(user)
         if(user != undefined){
-          this.route.navigate(['/home'])
+          this.route.navigate(['/admin-dashboard'])
         }
       }).catch((e) => {
         this.onReset();

@@ -25,7 +25,7 @@ Parse.Cloud.define('landmarks', async req => {
   
   const query = new Parse.Query("Landmark");
   query.ascending("order");
-  query.select("title", "objectId", "photo_thumb", "short_info");
+  query.select("title", "objectId", "photo_thumb", "short_info", "photo", "order");
   
   const results = await query.find();
   
@@ -37,7 +37,7 @@ Parse.Cloud.define('search', async req => {
   
   const query = new Parse.Query('Landmark');
   query.matches('title', req.params.title, 'i')
-  query.select("title", "objectId", "photo_thumb", "short_info");
+  query.select("title", "objectId", "photo_thumb", "short_info", "photo");
   query.ascending('order');
   
   const results = await query.find()

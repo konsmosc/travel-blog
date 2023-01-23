@@ -1,4 +1,4 @@
-<div class="row">
+<!-- <div class="row">
     <div class="col-4">
         <img src="{{landmark.photo_thumb}}" class="img-fluid">
     </div>
@@ -8,4 +8,19 @@
             <p class="card-text">{{landmark.short_info}}</p>
         </div>
     </div>         
+</div> -->
+
+<div class="container px-5 my-5">
+    <div class="row gx-5 align-items-center"> 
+        <div class="col-lg-6">
+            <a (click)="goToImage()">
+                <img class="img-fluid rounded-circle mb-4 px-4" src="{{landmark.photo_thumb}}" alt="..." />
+            </a>
+        </div>
+        <div class="col-lg-6">
+            <h2 class="fw-bolder"><a class="text-dark text-decoration-none" [routerLink]="['/landmark', landmark.objectId]">{{landmark.title}}</a></h2>
+            <p class="fw-normal text-muted mb-0">{{landmark.short_info}}</p>
+        </div>
+    </div>
 </div>
+

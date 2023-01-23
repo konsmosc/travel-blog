@@ -4,7 +4,7 @@ import { LandmarkService } from 'src/app/services/landmark.service';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import * as Parse from 'parse'; 
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-landmark-info',
@@ -27,33 +27,49 @@ export class LandmarkInfoComponent implements OnInit {
 
   hasWritePermissions: boolean = false;
   isLoading: boolean = false;
-  updateForm: FormGroup | any;
+  updateForm = new FormGroup({
+    short_info: new FormControl(''),
+    description: new FormControl('')
+  });
+  alert: any = {};
+  showAlert: boolean = false;
 
   constructor(
     private landmarkService: LandmarkService, 
     private route: ActivatedRoute,
-    private authService: AuthService,
-    private fb: FormBuilder
+    private authService: AuthService
   ){}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    console.log(id)
+    const id = this.route.snapshot.params['id']
+    if(id){
+      this.getLandmark(id)
+    }
     this.hasPermissions()
-    this.getLandmark(id)
-    this.initForms()
   }
 
-  getLandmark(id: string | null) {
+  getLandmark(id: string) {
     this.isLoading = true
-    this.landmarkService.get(id).subscribe((resp: Landmark) => {
-      console.log(resp)
-      this.landmarkInfo = resp
-      this.isLoading = false
+    this.landmarkService.get(id).subscribe({
+      next: (res: Landmark) => {
+        console.log(res)
+        this.landmarkInfo = res
+        this.initForms(res)
+        this.isLoading = false
+      },
+      error: (e: any) => {
+        console.log(e)
+        this.showAlert = true
+        this.alert = {
+          title: "Error",
+          type: "alert-danger",
+          msg: e.error.error
+        }
+      }
     })
   }
 
-  goToLink(url: string){
+  goToImage(url: string){
     window.open(url, "_blank");
   }
 
@@ -61,34 +77,36 @@ export class LandmarkInfoComponent implements OnInit {
     const isLoggedIn = this.authService.isAuthenticated();
     if(isLoggedIn){
       const user = Parse.User.current()?.toJSON()
+      console.log(user)
       if(user){
         const permissions = this.authService.getPermissions(user?.objectId);
-        if(permissions){
-          if(permissions.write && permissions.write == true){
-            this.hasWritePermissions = true
-          }
+        if(permissions && permissions.write){
+          this.hasWritePermissions = true
+        }else {
+          this.hasWritePermissions = false
         }
       }
     }
   }
 
-  initForms() {
-    this.updateForm = this.fb.group({
-      short_info: [null, Validators.required],
-      description: [null, Validators.required]
+  initForms(lan: Landmark) {
+    this.updateForm = new FormGroup({
+      short_info: new FormControl(lan['short_info']),
+      description: new FormControl(lan['description'])
     })
   }
 
   updateLandmark() {
-    const { short_info, description } = this.updateForm.value;
-    console.log(short_info, description)
-    const sessionToken = this.authService.getSessionToken();
-    if(sessionToken){
-      this.landmarkService.update(this.landmarkInfo.objectId, sessionToken, short_info, description).then((res) => {
-        console.log(res)
-        this.getLandmark(this.landmarkInfo.objectId);
-      })
-    }
+    this.landmarkService.update(this.landmarkInfo.objectId, this.updateForm.value).then((res) => {
+      console.log(res)
+      this.getLandmark(this.landmarkInfo.objectId);
+    }).catch((e) => {
+      this.alert = {
+        title: "Error",
+        type: "alert-danger",
+        msg: e.error.error
+      }
+    })
   }
 
 }

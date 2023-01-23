@@ -1,0 +1,5 @@
+<app-spinner [isLoading]="isLoading"></app-spinner>
+
+<div *ngIf="!isLoading" class="container"> 
+    <app-admin-table [landmarks]="landmarks"></app-admin-table>
+</div>

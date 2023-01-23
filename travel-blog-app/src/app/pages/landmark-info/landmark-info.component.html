@@ -1,46 +1,68 @@
-<app-spinner [isLoading]="isLoading"></app-spinner>
-<form [formGroup]="updateForm" (ngSubmit)="updateLandmark()">
-    <div class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
-            <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-2">
-                <div class="col-md-6">
-                    <a (click)="goToLink(landmarkInfo.photo)">
-                        <img class="img-fluid" src="{{landmarkInfo.photo_thumb}}" alt="..." />
+<app-spinner [isLoading]="isLoading && !showAlert"></app-spinner>
+
+<div *ngIf="showAlert" class="container p-4">
+    <app-alert [title]="alert.title" [type]="alert.type" [msg]="alert.msg"></app-alert>
+</div>
+
+<div *ngIf="hasWritePermissions && alert.title != 'Error'" class="container">
+    <form [formGroup]="updateForm" (ngSubmit)="updateLandmark()">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <div class="mt-4 mb-2">
+                    <a (click)="goToImage(landmarkInfo.photo)">
+                        <img class="img-fluid rounded" src="{{landmarkInfo.photo_thumb}}" alt="..." />
                     </a>
                 </div>
-                <div class="col-md-6">
-                    <h2 class="display-5 fw-bold">{{landmarkInfo.title}}</h2>
-                    <textarea 
-                        *ngIf="hasWritePermissions"
-                        [readonly]="!hasWritePermissions" 
-                        class="form-control-plaintext"
-                        formControlName="short_info"
-                        value="{{landmarkInfo.short_info}}" rows="4">
-                    </textarea>
-                    <p *ngIf="!hasWritePermissions" class="text-sm">{{landmarkInfo.short_info}} 
-                        <a href="{{landmarkInfo.url}}" target="_blank" class="text-decoration-none text-primary">more...</a>
-                    </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="m-2">
+                    <h2 class="display-4 fw-semibold">{{landmarkInfo.title}}</h2>
                 </div>
             </div>
         </div>
-        <div class="container px-4">
-            <div class="row gx-4 gx-lg-5 row-cols-1">
-                <p *ngIf="!hasWritePermissions">{{landmarkInfo.description}}</p>
-                <textarea 
-                    *ngIf="hasWritePermissions" 
-                    [readonly]="!hasWritePermissions" 
-                    class="form-control-plaintext"
-                    formControlName="description" 
-                    value="{{landmarkInfo.description}}" rows="8">
-                </textarea>
+        <div class="mb-5">
+            <textarea 
+                [readonly]="!hasWritePermissions" 
+                class="form-control-plaintext"
+                formControlName="short_info"
+                rows="4">
+            </textarea>
+            <h2 class="fw-bolder mb-4 mt-5">Description</h2>
+            <textarea 
+                [readonly]="!hasWritePermissions" 
+                class="form-control-plaintext"
+                formControlName="description" 
+                rows="8">
+            </textarea>
+        </div>
+        <div class="py-5">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="!hasWritePermissions && alert.title != 'Error'" class="container">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <div class="p-5">
+                <a (click)="goToImage(landmarkInfo.photo)">
+                    <img class="img-fluid rounded" src="{{landmarkInfo.photo_thumb}}" alt="..." />
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="p-5">
+                <h2 class="display-4 fw-semibold">{{landmarkInfo.title}}</h2>
             </div>
         </div>
     </div>
-    <div class="py-5" *ngIf="hasWritePermissions">
-        <div class="container px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
-        </div>
+    <div class="mb-5">
+        <p class="text-sm mb-4">{{landmarkInfo.short_info}}</p>
+        <h2 class="fw-bolder mb-4 mt-5">Description</h2>
+        <p class="fs-6 mb-4">{{landmarkInfo.description}} <a href="{{landmarkInfo.url}}" target="_blank" class="text-decoration-none text-primary">more...</a></p>
     </div>
-</form>
+</div>

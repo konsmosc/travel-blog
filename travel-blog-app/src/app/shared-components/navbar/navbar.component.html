@@ -5,6 +5,11 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul *ngIf="isLoggedIn" class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a [routerLink]="['/admin-dashboard']" class="nav-link text-white">Dashboard</a>
+                </li>
+            </ul>
             <div class="ms-auto d-flex">
                 <app-search-box></app-search-box>
                 <button class="btn text-white" *ngIf="isLoggedIn" (click)="logout()">

@@ -1,0 +1,36 @@
+<div class="container p-4">
+    <div class="row justify-content-center">
+        <div class="table-responsive">
+        <table class="table table-sm table-image">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Order</th>
+                <th scope="col" class="d-none d-xl-block">Image</th>
+                <th class="text-center" scope="col">Name</th>
+                <th class="text-center" scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let lan of landmarks">
+                    <th scope="row">{{lan.order}}</th>
+                    <td class="d-none d-xl-block">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 h-25 w-25">
+                                <img class="h-25 w-25 rounded-circle" src="{{lan.photo_thumb}}" alt="">
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">{{lan.title}}</td>
+                    <td class="text-center">
+                        <div class="flex items-center">
+                            <a [routerLink]="['/landmark', lan.objectId]" class="text-decoration-none text-body">
+                                <i class="bi bi-pen-fill"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>

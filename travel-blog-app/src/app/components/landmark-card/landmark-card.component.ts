@@ -10,4 +10,8 @@ export class LandmarkCardComponent {
 
   @Input('landmark') landmark: Partial<Landmark> = {}
 
+  goToImage(){
+    window.open(this.landmark.photo, "_blank");
+  }
+
 }

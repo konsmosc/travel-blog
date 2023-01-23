@@ -13,6 +13,9 @@ import { LandmarkInfoComponent } from './pages/landmark-info/landmark-info.compo
 import { HomeModule } from './pages/home/home.module';
 import { SearchModule } from './pages/search/search.module';
 import { SpinnerModule } from './components/spinner/spinner.module';
+import { ParseInitService } from './services/parse-init.service';
+import { AlertModule } from './components/alert/alert.module';
+import { AdminDashboardModule } from './pages/admin-dashboard/admin-dashboard.module';
 
 @NgModule({
   declarations: [
@@ -30,10 +33,12 @@ import { SpinnerModule } from './components/spinner/spinner.module';
     HttpClientModule,
     HomeModule,
     SearchModule,
+    AdminDashboardModule,
     AppRoutingModule,
-    SpinnerModule
+    SpinnerModule,
+    AlertModule
   ],
-  providers: [],
+  providers: [ParseInitService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

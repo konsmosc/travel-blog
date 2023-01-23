@@ -3,14 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Landmark, ListLandmarksResponse } from '../interfaces/landmarks';
 import * as Parse from 'parse';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LandmarkService {
 
-  private baseUrl: string = "http://localhost:5000/parse"
-  private APP_KEY: string = "NqqPKd9Mzzdk0Es6P7NdzXOXNb4tsqdq6Q8p0cZi"
+  private baseUrl: string = environment.baseUrl
+  private APP_KEY: string = environment.appKey
 
   constructor(private http: HttpClient) { }
 
@@ -43,22 +44,21 @@ export class LandmarkService {
   }
 
   // uses the parse-sdk
-  async update(id: string, sessionToken: string, short_info?: string, description?: string) {
+  async update(id: string, data: any) {
     const query = new Parse.Query("Landmark")
     query.get(id).then((landmark) => {
-      if(short_info){
-        landmark.set("short_info", short_info)
+      for(let i in data){
+        if(data[i] != null){
+          landmark.set(i, data[i])
+        }
       }
-      if(description){
-        landmark.set("description", description)
-      }
-      landmark.set("sessionToken", sessionToken)
       console.log(landmark)
       
       landmark.save().then((updatedLandmark) => {
         return updatedLandmark
       }, (err) => {
         console.log(err.message)
+        throw new Error(err.message)
       })
 
     })
