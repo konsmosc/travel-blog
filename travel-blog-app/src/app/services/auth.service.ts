@@ -15,15 +15,17 @@ export class AuthService {
 
   constructor() { }
 
-  login(username: string, password: string) {
-    return new Promise((resolve, reject) => {
-      Parse.User.logIn(username, password).then((res) => {
-        this.userAuth.next(true);
-        resolve(res)
-      }).catch((e) => {
-        reject(e)
-      })
-    });
+  async login(username: string, password: string) {
+    try{
+      const user = await Parse.User.logIn(username, password)
+      if(!user){
+        return undefined 
+      }
+      this.userAuth.next(true)
+      return user
+    }catch(e: any){
+      throw new Error(e.message)
+    }
   }
 
   async logout() {
@@ -46,7 +48,7 @@ export class AuthService {
       }
       return undefined;
     }).catch((err) => {
-      throw new Error(err.message);
+      return new Error(err.message);
     })
   }
 

@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit{
     const { username, password } = this.loginForm.value;
     if(this.loginForm.valid){
       this.authService.login(username, password).then((user) => {
-        console.log(user)
         if(user != undefined){
           this.route.navigate(['/admin-dashboard'])
         }

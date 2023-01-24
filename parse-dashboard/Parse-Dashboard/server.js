@@ -36,7 +36,8 @@ module.exports = (options) => {
   let configFromCLI = null;
   let configServerURL = options.serverURL || process.env.SERVER_URL;
   let configGraphQLServerURL = options.graphQLServerURL || process.env.PARSE_DASHBOARD_GRAPHQL_SERVER_URL;
-  let configMasterKey = options.masterKey || process.env.READ_ONLY_MASTER_KEY;
+  // use read-only key for read only actions from dashboard or matser key for read/write actions
+  let configMasterKey = options.masterKey || process.env.READ_ONLY_MASTER_KEY || process.env.MASTER_KEY;
   let configAppId = options.appId || process.env.APP_ID;
   let configAppName = options.appName || process.env.APP_NAME;
   let configUserId = options.userId || process.env.APP_USER;

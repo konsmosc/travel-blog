@@ -52,13 +52,11 @@ export class LandmarkInfoComponent implements OnInit {
     this.isLoading = true
     this.landmarkService.get(id).subscribe({
       next: (res: Landmark) => {
-        console.log(res)
         this.landmarkInfo = res
         this.initForms(res)
         this.isLoading = false
       },
       error: (e: any) => {
-        console.log(e)
         this.showAlert = true
         this.alert = {
           title: "Error",
@@ -77,7 +75,6 @@ export class LandmarkInfoComponent implements OnInit {
     const isLoggedIn = this.authService.isAuthenticated();
     if(isLoggedIn){
       const user = Parse.User.current()?.toJSON()
-      console.log(user)
       if(user){
         const permissions = this.authService.getPermissions(user?.objectId);
         if(permissions && permissions.write){
@@ -98,13 +95,16 @@ export class LandmarkInfoComponent implements OnInit {
 
   updateLandmark() {
     this.landmarkService.update(this.landmarkInfo.objectId, this.updateForm.value).then((res) => {
-      console.log(res)
-      this.getLandmark(this.landmarkInfo.objectId);
-    }).catch((e) => {
+      if(res){
+        this.updateForm.reset()
+        this.getLandmark(this.landmarkInfo.objectId);
+      }
+    }).catch(e =>{
+      this.showAlert = true
       this.alert = {
         title: "Error",
         type: "alert-danger",
-        msg: e.error.error
+        msg: e
       }
     })
   }

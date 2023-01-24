@@ -23,17 +23,17 @@ export class SearchComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
         this.landmarkTitle = params['landmark']
-        console.log(this.landmarkTitle);
         this.searchForLandmarks(this.landmarkTitle)
       })
   }
 
   searchForLandmarks(title: string) {
     this.isLoading = true;
-    this.landmarkService.searchLandmark(title).subscribe((resp: ListLandmarksResponse) => {
-      console.log(resp)
-      this.searchLandmarksArray = resp.result
-      this.isLoading = false;
+    this.landmarkService.searchLandmark(title).subscribe({ 
+      next :(resp: ListLandmarksResponse) => {
+        this.searchLandmarksArray = resp.result
+        this.isLoading = false;
+      }
     })
   }
 

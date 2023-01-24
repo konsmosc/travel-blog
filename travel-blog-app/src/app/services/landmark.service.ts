@@ -45,23 +45,22 @@ export class LandmarkService {
 
   // uses the parse-sdk
   async update(id: string, data: any) {
-    const query = new Parse.Query("Landmark")
-    query.get(id).then((landmark) => {
+    try{
+      const query = new Parse.Query("Landmark")
+      const landmark = await query.get(id)
+      if(!landmark){
+        return undefined
+      }
       for(let i in data){
         if(data[i] != null){
           landmark.set(i, data[i])
         }
       }
-      console.log(landmark)
-      
-      landmark.save().then((updatedLandmark) => {
-        return updatedLandmark
-      }, (err) => {
-        console.log(err.message)
-        throw new Error(err.message)
-      })
+      return await landmark.save()
 
-    })
+    }catch(error: any){
+      throw new Error(error)
+    }
   }
 
 }

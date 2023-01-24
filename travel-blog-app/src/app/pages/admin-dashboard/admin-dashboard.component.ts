@@ -20,10 +20,11 @@ export class AdminDashboardComponent {
 
   listLandmarks(){
     this.isLoading = true;
-    this.landmarkService.list().subscribe((resp: ListLandmarksResponse) => {
-      console.log(resp.result)
-      this.landmarks = resp.result
-      this.isLoading = false;
+    this.landmarkService.list().subscribe({ 
+      next: (resp: ListLandmarksResponse) => {
+        this.landmarks = resp.result
+        this.isLoading = false;
+      }
     })
   }
 
